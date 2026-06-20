@@ -1,0 +1,40 @@
+name: Deploy Flutter Web to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout kode dari GitHub
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup environment Flutter di server GitHub
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # 3. Download package dan Build Flutter Web
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        run: flutter build web --release --no-wasm-dry-run
+
+      # 4. Upload file hasil build ke Droplet DigitalOcean
+      - name: Deploy to Server via SFTP
+        uses: AppleBoy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "build/web/*"
+          target: "/var/www/html"
+          strip_components: 2
+          overwrite: true
