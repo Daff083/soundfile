@@ -32,7 +32,6 @@
 // └─ pubspec.yaml                          ← Dependencies (supabase_flutter, dll)
 // =============================================================================
 
-import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -363,20 +362,8 @@ class _MainLayoutState extends State<MainLayout> {
         int successCount = 0;
 
         for (var file in result.files) {
-          // ★ FIX: Di Windows desktop, file.bytes seringkali null.
-          // Solusi: baca bytes dari file.path jika bytes null.
-          Uint8List? fileBytes = file.bytes;
-
-          if (fileBytes == null && file.path != null) {
-            // Desktop platform: baca file dari disk
-            try {
-              fileBytes = await File(file.path!).readAsBytes();
-              debugPrint('Read ${file.name} from path: ${file.path} (${fileBytes.length} bytes)');
-            } catch (readError) {
-              debugPrint('Error reading file ${file.name}: $readError');
-              continue; // Skip file ini, lanjut ke file berikutnya
-            }
-          }
+          // withData: true → bytes langsung tersedia di Flutter Web
+          final Uint8List? fileBytes = file.bytes;
 
           if (fileBytes != null && fileBytes.isNotEmpty) {
             // Step 2: ★ CLOUD — Upload file audio ke Firebase Storage

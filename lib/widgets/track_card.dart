@@ -9,7 +9,6 @@
 // - Tombol add-to-playlist memanggil [SupabaseService.addTrackToPlaylist()]
 // =============================================================================
 
-import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -60,11 +59,8 @@ class TrackCard extends StatelessWidget {
                       );
                       if (result != null && result.files.isNotEmpty) {
                         final pickedFile = result.files.first;
-                        // ★ FIX: Di web, path selalu null → pakai bytes langsung
-                        Uint8List? bytes = pickedFile.bytes;
-                        if (bytes == null && pickedFile.path != null) {
-                          bytes = await File(pickedFile.path!).readAsBytes();
-                        }
+                        // ★ FIX: Di web, withData:true → bytes langsung tersedia
+                        final bytes = pickedFile.bytes;
                         if (bytes != null) {
                           setModalState(() {
                             newCoverBytes = bytes;
