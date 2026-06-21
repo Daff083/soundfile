@@ -58,14 +58,19 @@ class TrackCard extends StatelessWidget {
                         type: FileType.image,
                         withData: true, // Penting untuk Flutter Web
                       );
-                      if (result != null && result.files.first.path != null) {
-                        // ★ FIX: Di desktop, bytes bisa null → baca dari path
-                        Uint8List? bytes = result.files.first.bytes;
-                        bytes ??= await File(result.files.first.path!).readAsBytes();
-                        setModalState(() {
-                          newCoverBytes = bytes;
-                          newCover = result.files.first.name;
-                        });
+                      if (result != null && result.files.isNotEmpty) {
+                        final pickedFile = result.files.first;
+                        // ★ FIX: Di web, path selalu null → pakai bytes langsung
+                        Uint8List? bytes = pickedFile.bytes;
+                        if (bytes == null && pickedFile.path != null) {
+                          bytes = await File(pickedFile.path!).readAsBytes();
+                        }
+                        if (bytes != null) {
+                          setModalState(() {
+                            newCoverBytes = bytes;
+                            newCover = pickedFile.name;
+                          });
+                        }
                       }
                     },
                     child: Container(
