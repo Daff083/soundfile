@@ -232,34 +232,36 @@ class _MainLayoutState extends State<MainLayout> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _activeMenu == 0 ? 'Cloud Library' : 'Your Playlists',
-                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  // Badge koneksi Firebase
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFCA28).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(4),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _activeMenu == 0 ? 'Cloud Library' : 'Your Playlists',
+                      style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                     ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.cloud_done, size: 12, color: Color(0xFFFFCA28)),
-                        SizedBox(width: 4),
-                        Text(
-                          'Firebase Connected',
-                          style: TextStyle(fontSize: 11, color: Color(0xFFFFCA28)),
-                        ),
-                      ],
+                    const SizedBox(height: 4),
+                    // Badge koneksi Firebase
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFCA28).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.cloud_done, size: 12, color: Color(0xFFFFCA28)),
+                          SizedBox(width: 4),
+                          Text(
+                            'Firebase Connected',
+                            style: TextStyle(fontSize: 11, color: Color(0xFFFFCA28)),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               // Tombol Import MP3 (hanya di Library)
