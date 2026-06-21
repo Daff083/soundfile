@@ -1,8 +1,10 @@
 import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 import '../models/track.dart';
 import '../models/playlist.dart';
 
@@ -142,39 +144,62 @@ class FirebaseService {
   }
 
   // =========================================================================
-  // ★ CLOUD STORAGE — UPLOAD FILE KE FIREBASE STORAGE
+  // ★ CLOUD STORAGE — UPLOAD FILE KE CLOUDINARY (FREE BYPASS)
   // =========================================================================
 
-  /// ★ UPLOAD AUDIO — Upload file audio ke folder 'audio' di Firebase Storage.
+  static const String _cloudinaryCloudName = 'df5gzofwh';
+  static const String _cloudinaryUploadPreset = 'osslgexq';
+
+  /// ★ UPLOAD AUDIO — Upload file audio ke Cloudinary.
   static Future<String> uploadAudio(String fileName, Uint8List bytes) async {
     try {
-      final path = 'audio/${DateTime.now().millisecondsSinceEpoch}_$fileName';
-      final ref = FirebaseStorage.instance.ref().child(path);
+      final uri = Uri.parse('https://api.cloudinary.com/v1_1/$_cloudinaryCloudName/upload');
       
-      await ref.putData(
-        bytes,
-        SettableMetadata(contentType: 'audio/mpeg'),
-      );
+      final request = http.MultipartRequest('POST', uri)
+        ..fields['upload_preset'] = _cloudinaryUploadPreset
+        ..files.add(http.MultipartFile.fromBytes(
+          'file',
+          bytes,
+          filename: fileName,
+        ));
 
-      return await ref.getDownloadURL();
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(responseBody);
+        return data['secure_url'] as String;
+      } else {
+        throw Exception('Cloudinary upload failed: $responseBody');
+      }
     } catch (e) {
       debugPrint('Upload audio error: $e');
       rethrow;
     }
   }
 
-  /// ★ UPLOAD COVER — Upload gambar cover ke folder 'covers' di Firebase Storage.
+  /// ★ UPLOAD COVER — Upload gambar cover ke Cloudinary.
   static Future<String> uploadCover(String fileName, Uint8List bytes) async {
     try {
-      final path = 'covers/${DateTime.now().millisecondsSinceEpoch}_$fileName';
-      final ref = FirebaseStorage.instance.ref().child(path);
+      final uri = Uri.parse('https://api.cloudinary.com/v1_1/$_cloudinaryCloudName/upload');
       
-      await ref.putData(
-        bytes,
-        SettableMetadata(contentType: 'image/jpeg'),
-      );
+      final request = http.MultipartRequest('POST', uri)
+        ..fields['upload_preset'] = _cloudinaryUploadPreset
+        ..files.add(http.MultipartFile.fromBytes(
+          'file',
+          bytes,
+          filename: fileName,
+        ));
 
-      return await ref.getDownloadURL();
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(responseBody);
+        return data['secure_url'] as String;
+      } else {
+        throw Exception('Cloudinary upload failed: $responseBody');
+      }
     } catch (e) {
       debugPrint('Upload cover error: $e');
       rethrow;
