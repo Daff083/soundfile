@@ -9,6 +9,7 @@
 // - Tombol add-to-playlist memanggil [SupabaseService.addTrackToPlaylist()]
 // =============================================================================
 
+import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -57,9 +58,12 @@ class TrackCard extends StatelessWidget {
                         type: FileType.image,
                         withData: true, // Penting untuk Flutter Web
                       );
-                      if (result != null && result.files.first.bytes != null) {
+                      if (result != null && result.files.first.path != null) {
+                        // ★ FIX: Di desktop, bytes bisa null → baca dari path
+                        Uint8List? bytes = result.files.first.bytes;
+                        bytes ??= await File(result.files.first.path!).readAsBytes();
                         setModalState(() {
-                          newCoverBytes = result.files.first.bytes;
+                          newCoverBytes = bytes;
                           newCover = result.files.first.name;
                         });
                       }

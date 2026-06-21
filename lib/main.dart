@@ -32,6 +32,8 @@
 // └─ pubspec.yaml                          ← Dependencies (supabase_flutter, dll)
 // =============================================================================
 
+import 'dart:io' show File;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -346,6 +348,7 @@ class _MainLayoutState extends State<MainLayout> {
     try {
       // Step 1: Pilih file audio dari komputer
       // withData: true → penting untuk Flutter Web (mendapat bytes)
+      // Di desktop (Windows/macOS/Linux), file.bytes bisa null → pakai file.path
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.audio,
         allowMultiple: true,
@@ -355,12 +358,29 @@ class _MainLayoutState extends State<MainLayout> {
       if (result != null) {
         setState(() => _isImporting = true);
 
+        int successCount = 0;
+
         for (var file in result.files) {
-          if (file.bytes != null) {
+          // ★ FIX: Di Windows desktop, file.bytes seringkali null.
+          // Solusi: baca bytes dari file.path jika bytes null.
+          Uint8List? fileBytes = file.bytes;
+
+          if (fileBytes == null && file.path != null) {
+            // Desktop platform: baca file dari disk
+            try {
+              fileBytes = await File(file.path!).readAsBytes();
+              debugPrint('Read ${file.name} from path: ${file.path} (${fileBytes.length} bytes)');
+            } catch (readError) {
+              debugPrint('Error reading file ${file.name}: $readError');
+              continue; // Skip file ini, lanjut ke file berikutnya
+            }
+          }
+
+          if (fileBytes != null && fileBytes.isNotEmpty) {
             // Step 2: ★ CLOUD — Upload file audio ke Firebase Storage
             final audioUrl = await FirebaseService.uploadAudio(
               file.name.replaceAll(' ', '_'),
-              file.bytes!,
+              fileBytes,
             );
 
             // Step 3: ★ CLOUD — Simpan metadata ke database Firebase
@@ -378,6 +398,9 @@ class _MainLayoutState extends State<MainLayout> {
               coverUrl: '',
             );
             await FirebaseService.insertTrack(newTrack);
+            successCount++;
+          } else {
+            debugPrint('Skipped ${file.name}: no bytes available (bytes=null, path=${file.path})');
           }
         }
 
@@ -388,8 +411,8 @@ class _MainLayoutState extends State<MainLayout> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${result.files.length} file berhasil diupload ke cloud!'),
-              backgroundColor: const Color(0xFF00E5FF),
+              content: Text('$successCount dari ${result.files.length} file berhasil diupload ke cloud!'),
+              backgroundColor: successCount > 0 ? const Color(0xFF00E5FF) : Colors.orangeAccent,
             ),
           );
         }
