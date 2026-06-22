@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SoundCanvas — Cloud Music Player berbasis Flutter & Firebase. Upload, streaming, dan kelola musik dari mana saja.">
+  <meta name="keywords" content="SoundCanvas, music player, cloud, flutter, firebase, streaming audio">
+  <meta name="author" content="SoundCanvas Team">
+  <meta property="og:title" content="SoundCanvas — Cloud Music Player">
+  <meta property="og:description" content="Platform streaming musik cloud modern dengan teknologi Flutter & Firebase.">
+  <meta property="og:type" content="website">
+
+  <title>SoundCanvas — Cloud Music Player</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       HERO SECTION — Full screen with video background
+       ========================================================================= -->
+  <section class="hero" id="hero">
+
+    <!-- Video Background (will be hidden on mobile / if no video) -->
+    <div class="hero__video-wrap" id="videoWrap">
+      <video
+        class="hero__video"
+        id="bgVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster=""
+      >
+        <source src="assets/bg-video.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- Animated gradient fallback (shows when video fails or on mobile) -->
+    <div class="hero__gradient-bg" id="gradientBg"></div>
+
+    <!-- Dark overlay -->
+    <div class="hero__overlay"></div>
+
+    <!-- Floating particles -->
+    <div class="hero__particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero__content">
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        Cloud-Powered Music Platform
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__title-gradient">SoundCanvas</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        Upload, streaming, dan kelola koleksi musik Anda dari mana saja.
+        Ditenagai oleh cloud — didesain untuk pengalaman terbaik.
+      </p>
+
+      <a href="app.html" class="hero__cta" id="ctaButton">
+        Launch App
+        <span class="hero__cta-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll">
+      <span class="hero__scroll-text">Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FEATURES SECTION — Key feature cards
+       ========================================================================= -->
+  <section class="features" id="features">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="section-label__line"></span>
+        Fitur Utama
+      </div>
+      <h2 class="section-title">Semua yang Anda butuhkan<br>dalam satu platform</h2>
+      <p class="section-desc">
+        SoundCanvas menggabungkan kekuatan cloud storage dengan antarmuka modern
+        untuk pengalaman mendengarkan musik yang sempurna.
+      </p>
+    </div>
+
+    <div class="features__grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">☁️</div>
+        <h3 class="feature-card__title">Cloud Storage</h3>
+        <p class="feature-card__desc">
+          Upload file MP3 langsung dari browser. File tersimpan aman di cloud dan bisa diakses kapan saja, di mana saja.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">🎵</div>
+        <h3 class="feature-card__title">Smart Playlist</h3>
+        <p class="feature-card__desc">
+          Buat dan kelola playlist sesuai mood Anda. Tambah atau hapus lagu dengan mudah melalui sistem CRUD yang lengkap.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon">🔒</div>
+        <h3 class="feature-card__title">Secure Authentication</h3>
+        <p class="feature-card__desc">
+          Sistem login yang aman menggunakan Firebase Authentication. Data musik Anda terlindungi dengan enkripsi standar industri.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       CRUD HIGHLIGHT SECTION
+       ========================================================================= -->
+  <section class="features" id="crud" style="padding-top: 40px;">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="section-label__line"></span>
+        Operasi CRUD
+      </div>
+      <h2 class="section-title">Full CRUD Operations</h2>
+      <p class="section-desc">
+        Implementasi lengkap Create, Read, Update, Delete pada seluruh entitas
+        menggunakan Firebase Firestore sebagai cloud database.
+      </p>
+    </div>
+
+    <div class="features__grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">➕</div>
+        <h3 class="feature-card__title">Create</h3>
+        <p class="feature-card__desc">
+          Upload lagu baru ke cloud beserta metadata (judul, artis, cover). Buat playlist baru dan tambahkan lagu ke dalamnya.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">📖</div>
+        <h3 class="feature-card__title">Read</h3>
+        <p class="feature-card__desc">
+          Tampilkan seluruh koleksi musik dari database cloud. Streaming audio langsung dari cloud storage secara real-time.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon">✏️</div>
+        <h3 class="feature-card__title">Update</h3>
+        <p class="feature-card__desc">
+          Edit metadata lagu (judul, artis, cover image). Update isi playlist — tambah atau kurangi lagu dengan mudah.
+        </p>
+      </div>
+    </div>
+
+    <div class="features__grid" style="margin-top: 24px;">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">🗑️</div>
+        <h3 class="feature-card__title">Delete</h3>
+        <p class="feature-card__desc">
+          Hapus lagu dari library cloud. Hapus playlist beserta seluruh relasinya. Semua operasi tersinkronisasi secara real-time.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">🔗</div>
+        <h3 class="feature-card__title">Relasi Many-to-Many</h3>
+        <p class="feature-card__desc">
+          Satu lagu bisa masuk ke banyak playlist. Satu playlist bisa berisi banyak lagu. Diimplementasikan dengan array NoSQL di Firestore.
+        </p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon">⚡</div>
+        <h3 class="feature-card__title">Real-time Sync</h3>
+        <p class="feature-card__desc">
+          Semua perubahan langsung tersinkronisasi ke cloud. Data konsisten di semua perangkat yang terhubung.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       TECH STACK SECTION
+       ========================================================================= -->
+  <section class="techstack" id="techstack">
+    <div class="reveal">
+      <div class="section-label" style="justify-content: center;">
+        <span class="section-label__line"></span>
+        Tech Stack
+        <span class="section-label__line"></span>
+      </div>
+      <h2 class="section-title">Dibangun dengan teknologi modern</h2>
+      <p class="section-desc" style="margin-left: auto; margin-right: auto;">
+        Kombinasi framework dan layanan cloud terbaik untuk performa optimal.
+      </p>
+    </div>
+
+    <div class="techstack__grid reveal">
+      <div class="tech-badge">
+        <span class="tech-badge__icon">💙</span>
+        Flutter Web
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🔥</span>
+        Firebase Firestore
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🔐</span>
+        Firebase Auth
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">☁️</span>
+        Cloudinary Storage
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🌊</span>
+        DigitalOcean
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🚀</span>
+        GitHub Actions CI/CD
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🎵</span>
+        Just Audio
+      </div>
+      <div class="tech-badge">
+        <span class="tech-badge__icon">🎯</span>
+        Dart SDK
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="footer">
+    <p class="footer__text">
+      © 2025 <span>SoundCanvas</span> — Built with Flutter & Firebase
+    </p>
+  </footer>
+
+  <!-- =========================================================================
+       JAVASCRIPT — Video fallback + Scroll reveal
+       ========================================================================= -->
+  <script>
+    // --- Video fallback: show gradient if video fails to load ---
+    (function() {
+      const video = document.getElementById('bgVideo');
+      const videoWrap = document.getElementById('videoWrap');
+      const gradientBg = document.getElementById('gradientBg');
+
+      if (!video) return;
+
+      // Check if mobile (video autoplay is often blocked)
+      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        videoWrap.style.display = 'none';
+        gradientBg.style.zIndex = '0';
+        return;
+      }
+
+      // If video fails to load, show gradient fallback
+      video.addEventListener('error', function() {
+        videoWrap.style.display = 'none';
+        gradientBg.style.zIndex = '0';
+      });
+
+      // Also check after a timeout (in case video source simply doesn't exist)
+      setTimeout(function() {
+        if (video.readyState === 0) {
+          videoWrap.style.opacity = '0';
+          gradientBg.style.zIndex = '0';
+        }
+      }, 3000);
+
+      // When video can play, hide the gradient
+      video.addEventListener('canplay', function() {
+        gradientBg.style.opacity = '0';
+        gradientBg.style.transition = 'opacity 1s ease';
+      });
+    })();
+
+    // --- Scroll reveal animation ---
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < windowHeight - 80) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal);
+      window.addEventListener('load', checkReveal);
+      // Trigger once on init
+      checkReveal();
+    })();
+  </script>
+
+</body>
+</html>

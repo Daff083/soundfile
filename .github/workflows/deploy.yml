@@ -27,7 +27,16 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release --no-wasm-dry-run
 
-      # 4. Upload file hasil build ke Droplet DigitalOcean
+      # 4.5. Setup Landing Page (rename Flutter index → app, copy landing files)
+      - name: Setup Landing Page
+        run: |
+          mv build/web/index.html build/web/app.html
+          cp web/landing.html build/web/index.html
+          cp web/landing.css build/web/landing.css
+          mkdir -p build/web/assets
+          cp -r web/assets/* build/web/assets/ 2>/dev/null || true
+
+      # 5. Upload file hasil build ke Droplet DigitalOcean
       - name: Deploy to Server via SFTP
         uses: AppleBoy/scp-action@master
         with:
@@ -38,3 +47,4 @@ jobs:
           target: "/var/www/html"
           strip_components: 2
           overwrite: true
+
