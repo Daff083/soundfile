@@ -32,11 +32,11 @@ jobs:
       # Landing page jadi index.html di root
       - name: Setup Landing Page
         run: |
-          mkdir -p build/app
-          mv build/web/* build/app/
-          mkdir -p build/web
-          mv build/app/* build/web/app/ 2>/dev/null || true
-          rmdir build/app 2>/dev/null || true
+          mkdir -p build/temp_app
+          mv build/web/* build/temp_app/
+          mkdir -p build/web/app
+          mv build/temp_app/* build/web/app/
+          rmdir build/temp_app
           cp web/landing.html build/web/index.html
           cp web/landing.css build/web/landing.css
           cp web/favicon.png build/web/favicon.png 2>/dev/null || true
